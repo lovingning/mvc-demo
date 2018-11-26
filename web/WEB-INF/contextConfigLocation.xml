@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--添加handler-mapping-->
+    <bean class="com.knowledge.mnlin.handler_mapping.FirstHandlerMapping"/>
+
+    <!--添加handler-adapter-->
+    <bean class="com.knowledge.mnlin.handler_adapter.FirstHandlerAdapter"/>
+
+    <!--异常处理-->
+    <bean
+        class="com.knowledge.mnlin.handler_exception_resolver.FirstHandlerExceptionResolver"/>
+
+    <!--view指派-->
+    <bean class="com.knowledge.mnlin.view_resolver.FirstViewResolver"/>
+
+    <!--根据request 得到 viewname-->
+    <bean id="viewNameTranslator"
+          class="com.knowledge.mnlin.request_to_view_name_translator.FirstRequestToViewNameTranslator"/>
+
+    <!--定义语言环境解析-->
+    <bean id="localeResolver"
+          class="com.knowledge.mnlin.locale_resolver.FirstLocaleResolver">
+        <property name="defaultLocale" value="zh"/>
+    </bean>
+
+    <!-- 国际化资源文件 -->
+    <bean id="messageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="basename" value="/WEB-INF/resources/messages"/>
+        <!-- 如果在国际化资源文件中找不到对应代码的信息，就用这个代码作为名称  -->
+        <property name="useCodeAsDefaultMessage" value="true"/>
+    </bean>
+
+    <!--主题切换类似于语言环境切换-->
+    <bean id="themeResolver"
+          class="com.knowledge.mnlin.theme_resolver.FirstThemeResolver">
+        <property name="defaultThemeName" value="zh"/>
+    </bean>
+
+    <!--处理文件上传类请求-->
+    <bean id="multipartResolver"
+          class="com.knowledge.mnlin.multipart_resolver.FirstMultipartResolver"/>
+
+    <!--处理redirect重定向参数携带问题-->
+    <bean
+        id="flashMapManager"
+        class="com.knowledge.mnlin.flashmap_manager.FirstFlashMapManager"/>
+
+    <!--拦截器s-->
+    <mvc:interceptors>
+        <!--语言环境拦截-->
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+
+        <!--主题拦截-->
+        <bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor"/>
+    </mvc:interceptors>
+
+
+    <!--使用 RequestMappingHandlerAdapter(RequestMappingHandlerMapping) 和 BeanNameUrlHandlerMapping, 可以使用注解形式来使用controller-->
+    <mvc:annotation-driven/>
+
+    <!--设置默认的获取静态 文件的处理器(当dispatchServlet配置 拦截路径为 "/" 时)-->
+    <mvc:default-servlet-handler/>
+
+    <!--设置 默认的 view-resolver,路由jsp文件-->
+    <mvc:view-resolvers>
+        <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/"
+              p:suffix=".jsp"/>
+    </mvc:view-resolvers>
+
+    <!--扫描固定注解内容-->
+    <context:component-scan base-package="com.knowledge.mnlin" use-default-filters="true"/>
+</beans>
