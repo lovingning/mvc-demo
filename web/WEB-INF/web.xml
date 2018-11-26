@@ -54,7 +54,7 @@
         <!--设置支持文件上传-->
         <multipart-config>
             <!--TODO 填写真实的文件存储的路径-->
-            <location>E:/intellij_space/web1/web/files</location>
+            <location>E:/intellij_space/mvc-demo/web/files</location>
             <max-file-size>-1</max-file-size>
             <max-request-size>-1</max-request-size>
             <file-size-threshold>0</file-size-threshold>

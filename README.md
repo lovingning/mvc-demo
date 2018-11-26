@@ -15,3 +15,5 @@ http://localhost:8080/gc/all
 ```
 
 ##### 来查看不同的响应内容
+
+##### 可以查看blog: [javaEE&从servlet到SpringMVC](https://blog.csdn.net/lovingning/article/details/84374101) 了解更多详情
